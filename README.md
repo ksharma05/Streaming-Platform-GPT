@@ -24,3 +24,9 @@
     selected variant as javascript (without SWC)
 
 2) Configured Tailwind CSS
+3) Header
+4) Routing setup
+5) Login Form
+6) Sign up Form
+7) Form Validation
+8) useRef hook for validation
