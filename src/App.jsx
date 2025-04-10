@@ -1,14 +1,17 @@
 
-import './App.css'
+import Body from './components/Body'
+
 
 function App() {
 
 
   return (
     <>
-      <h1 className='w-2xs text-amber-500'>Let's Build Netflix</h1>
+      <Body />
     </>
   )
 }
+
+
 
 export default App
