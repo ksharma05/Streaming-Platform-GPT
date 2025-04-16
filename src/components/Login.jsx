@@ -1,20 +1,75 @@
 import React, { useRef, useState } from "react";
 import { validateFormFields } from "../utils/validation";
-
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword,updateProfile } from "firebase/auth";
+import { auth } from "../utils/firebase";
+// import { useDispatch } from "react-redux";
+// import { addUser } from "../utils/userSlice";
+import { useNavigate } from "react-router";
 
 const Login = () => {
   const [isNewUser, setIsNewUser] = useState(false);
   const [validateResult, setValidateResult] = useState({});
-  const name = useRef(null)
+  const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
+  // const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleSubmit = ()=>{
-   
-    const result = validateFormFields(name?.current?.value, email?.current?.value, password?.current?.value);
+  const handleSubmit = () => {
+    const result = validateFormFields(
+      email?.current?.value,
+      password?.current?.value
+    );
+
+    if (result.email || result.password) {
+     
+      return;
+    }
     setValidateResult(result);
+    if (isNewUser) {
+      createUserWithEmailAndPassword(
+        auth,
+        email?.current?.value,
+        password?.current?.value
+      )
+        .then((userCredential) => {
+          // Signed up
+          const user = userCredential.user;
+          updateProfile(auth.currentUser, {
+            displayName: name?.current?.value, photoURL: "https://example.com/jane-q-user/profile.jpg"
+          }).then(() => {
+          
+           
+          }).catch((error) => {
+           navigate("/error");
+          });
+        
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+         
+          // ..
+        });
+    } else {
+      signInWithEmailAndPassword(
+        auth,
+        email?.current?.value,
+        password?.current?.value
+      )
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+         
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
 
-  }
+        });
+    }
+  };
 
   const toggleLog = () => {
     setIsNewUser(!isNewUser);
@@ -37,9 +92,8 @@ const Login = () => {
                 minLength={8}
                 className="my-3 bg-[#313c4ea6] p-1 text-lg border rounded-xs  border-gray-600 "
               />
-              
             )}
-            {!validateResult?.name && <p>Please enter valid name</p>}
+
             <input
               ref={email}
               className="my-3 bg-[#313c4ea6] p-1 text-lg border rounded-xs  border-gray-600 "
@@ -47,7 +101,7 @@ const Login = () => {
               placeholder="Email"
               name="email"
             />
-            {!validateResult?.email && <p>Please enter valid email</p>}
+            {validateResult.email}
             <input
               ref={password}
               className="my-3 bg-[#313c4ea6] p-1 text-lg border rounded-xs  border-gray-600"
@@ -56,8 +110,11 @@ const Login = () => {
               name="password"
               minLength={8}
             />
-            {!validateResult?.password && <p>Please enter valid password</p>}
-            <button className="my-3 bg-red-600 rounded py-1 cursor-pointer" onClick={handleSubmit}>
+            {validateResult.password}
+            <button
+              className="my-3 bg-red-600 rounded py-1 cursor-pointer"
+              onClick={handleSubmit}
+            >
               {isNewUser ? "Sign Up" : "Sign In"}
             </button>
           </form>

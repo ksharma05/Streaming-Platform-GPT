@@ -1,12 +1,35 @@
 import React from 'react'
-import { Link } from 'react-router'
-import logo from '../assets/Netflix_Logo_PMS.png'
+import { useDispatch, useSelector } from 'react-redux'
+import appStore from '../utils/appStore'
+import { auth } from '../utils/firebase';
+import { signOut } from 'firebase/auth';
+import { removeUser } from '../utils/userSlice';
+import { useNavigate } from 'react-router';
+import { LOGO_URL, PROFILE_IMG_URL } from '../utils/constants';
+
 
 
 const Header = () => {
+  const selector = useSelector((store)=>store.user);
+  const dispatch = useDispatch(appStore);
+  const navigate = useNavigate();
+  
+  const handleSignOut = ()=>{
+    signOut(auth).then(() => {
+      // dispatch(removeUser());
+      // Sign-out successful.
+    }).catch((error) => {
+      navigate("/")
+    });
+  }
   return (
-    <div className='fixed px-44'>
-      <img src="https://help.nflxext.com/helpcenter/OneTrust/oneTrust_production/consent/87b6a5c0-0104-4e96-a291-092c11350111/01938dc4-59b3-7bbc-b635-c4131030e85f/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png" className='w-48' />
+    <div className='w-full fixed px-44 flex justify-between items-center'>
+      <div>
+        <img src={LOGO_URL} className='w-48' />
+      </div>
+      <div>
+        {selector && <button className='bg-red-500 text-white rounded-md p-2' onClick={handleSignOut}> Sign out, {selector.name}</button>}
+      </div>
     </div>
   )
 }
