@@ -119,7 +119,7 @@ const Login = () => {
             </button>
           </form>
           <p className="my-3">
-            {isNewUser ? "Already a user" : "New to Netfilx?"}
+            {isNewUser ? "Already a user" : "New to filx?"}
             <span
               className="font-bold hover:underline cursor-pointer"
               onClick={toggleLog}
