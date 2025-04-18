@@ -32,7 +32,7 @@ const Body = () => {
 
 
   return (
-    <div>
+    <div className="bg-black"> 
       <Header />
       <Outlet />
     </div>

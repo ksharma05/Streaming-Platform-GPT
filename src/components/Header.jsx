@@ -23,9 +23,9 @@ const Header = () => {
     });
   }
   return (
-    <div className='w-full fixed px-44 flex justify-between items-center'>
+    <div className='w-full fixed px-44 flex justify-between items-center z-50'>
       <div>
-        <img src="" alt='Logo' className='w-48' />
+        <img src={LOGO_URL} alt='Logo' className='w-48' />
       </div>
       <div>
         {selector && <button className='bg-red-500 text-white rounded-md p-2' onClick={handleSignOut}> Sign out, {selector.name}</button>}
