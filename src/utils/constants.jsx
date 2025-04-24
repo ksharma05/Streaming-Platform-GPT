@@ -7,8 +7,15 @@ export const options = {
     method: 'GET',
     headers: {
       accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjZjg3ZWY2N2M5ZGJhM2FhZDRkMWYxZWI4OWU4ODg4MCIsIm5iZiI6MTc0NDY0MDk5MS45NDIwMDAyLCJzdWIiOiI2N2ZkMWJkZmVmNWFlNjg3Y2JkOTFhMzciLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.JGc4oTjiu0tlWIM2_VXKjyTwrQcSgV6s_pS4vhyyqN8'
+      Authorization: 'Bearer '+import.meta.env.VITE_TMDB_API_KEY
     }
   };
 
-  export const IMAGE_CDN_URL = "https://image.tmdb.org/t/p/w500/"
+  export const IMAGE_CDN_URL = "https://image.tmdb.org/t/p/w500/";
+  export const LANGUAGE_OPTIONS = [
+    {value:"english", text:"English"},
+    {value:"hindi", text:"Hindi"}
+  ]
+
+  export const OPENAI_KEY = import.meta.env.VITE_OPENAI_KEY;
+  
